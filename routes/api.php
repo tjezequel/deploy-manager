@@ -22,7 +22,15 @@ Route::middleware(['auth:api'])->group(function(){
         Route::get('/language','LanguageController@list');
         Route::post('/language', 'LanguageController@create');
         Route::put('/language/{languageId}', 'LanguageController@update');
-        Route::delete('language/{languageId}', 'LanguageController@delete');
+        Route::delete('/language/{languageId}', 'LanguageController@delete');
+
+        /*
+         * Framework routes
+         */
+        Route::get('/framework','FrameworkController@list');
+        Route::post('/framework', 'FrameworkController@create');
+        Route::put('/framework/{languageId}', 'FrameworkController@update');
+        Route::delete('/framework/{languageId}', 'FrameworkController@delete');
 
     });
 });

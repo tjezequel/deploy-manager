@@ -2,30 +2,29 @@
 /**
  * Created by PhpStorm.
  * User: thomasjezequel
- * Date: 16/12/2017
- * Time: 22:40
+ * Date: 17/12/2017
+ * Time: 00:27
  */
 
 namespace App\Http\Controllers\API;
 
 
 use App\Http\Controllers\Controller;
-use App\Model\Language;
-use Illuminate\Http\JsonResponse;
+use App\Model\Framework;
 use Illuminate\Http\Request;
 
-class LanguageController extends Controller
+class FrameworkController extends Controller
 {
 
     /**
      * @return \Illuminate\Http\JsonResponse
-     * Lists all the languages availables in the application
+     * Lists all the framework availables in the application
      *
      */
     function list() {
 
-        $languages = Language::all();
-        return response()->json($languages);
+        $frameworks = Framework::all();
+        return response()->json($frameworks);
 
     }
 
@@ -33,19 +32,20 @@ class LanguageController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      *
-     * Creates a new language
+     * Creates a new framework
      */
     function create(Request $request) {
 
         $requestContent = $request->getContent();
+
         try {
-            $jsonContent = json_decode($requestContent, true)['language'];
-            $language = Language::create([
+            $jsonContent = json_decode($requestContent, true)['framework'];
+            $framework = Framework::create([
                 'name' => $jsonContent['name'],
                 'version' => $jsonContent['version'],
                 'logo_url' => $jsonContent['logo_url']
             ]);
-            return response()->json($language, 201);
+            return response()->json($framework, 201);
         } catch (\Exception $err) {
             return response()->json(['error'=> 'invalid_or_empty_data'], 400);
         }
@@ -55,21 +55,20 @@ class LanguageController extends Controller
 
     /**
      * @param Request $request
-     * @param $languageId
+     * @param $frameworkId
      *
-     * Updates the language with the requested Id
+     * Updates the framework with the requested Id
      * @return \Illuminate\Http\JsonResponse
      */
-    function update(Request $request, $languageId) {
+    function update(Request $request, $frameworkId) {
         $requestContent = $request->getContent();
-        $language = Language::findOrFail($languageId);
-
+        $framework = Framework::findOrFail($frameworkId);
         try {
-            $jsonContent = json_decode($requestContent, true)['language'];
-            $language->name = $jsonContent['name'];
-            $language->version = $jsonContent['version'];
-            $language->logo_url = $jsonContent['logo_url'];
-            $language->save();
+            $jsonContent = json_decode($requestContent, true)['framework'];
+            $framework->name = $jsonContent['name'];
+            $framework->version = $jsonContent['version'];
+            $framework->logo_url = $jsonContent['logo_url'];
+            $framework->save();
             return response('', 200);
         } catch (\Exception $err) {
             return response()->json(['error'=> 'invalid_or_empty_data'], 400);
@@ -77,9 +76,9 @@ class LanguageController extends Controller
 
     }
 
-    function delete($languageId) {
-        $language = Language::findOrFail($languageId);
-        $language->delete();
+    function delete($frameworkId) {
+        $framework = Framework::findOrFail($frameworkId);
+        $framework->delete();
         return response('', 204);
     }
 
