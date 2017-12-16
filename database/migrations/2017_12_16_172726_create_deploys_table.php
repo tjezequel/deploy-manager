@@ -3,9 +3,8 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\DB;
 
-class CreateUsersTable extends Migration
+class CreateDeploysTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,16 +13,14 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        DB::statement('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
-
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('deploys', function (Blueprint $table) {
             $table->uuid('id');
             $table->primary('id');
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->rememberToken();
+            $table->boolean('status');
+            $table->uuid('environment_id');
             $table->timestamps();
+
+            $table->foreign('environment_id')->references('id')->on('environments');
         });
     }
 
@@ -34,7 +31,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        DB::statement('DROP EXTENSION IF EXISTS "uuid-ossp";');
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('deploys');
     }
 }
