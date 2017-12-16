@@ -19,6 +19,7 @@ class CreateFrameworkTable extends Migration
             $table->timestamps();
             $table->string('name');
             $table->string('version');
+            $table->string('logo_url')->nullable(true);
         });
     }
 
