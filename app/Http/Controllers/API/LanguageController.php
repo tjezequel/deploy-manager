@@ -76,4 +76,10 @@ class LanguageController
 
     }
 
+    function delete($languageId) {
+        $language = Language::findOrFail($languageId);
+        $language->delete();
+        return response('', 204);
+    }
+
 }
