@@ -17,7 +17,7 @@ Route::middleware(['auth:api'])->group(function(){
     Route::namespace('API')->group(function(){
 
         /*
-         * Languages routes
+         * Languages Routes
          */
         Route::get('/language','LanguageController@list');
         Route::post('/language', 'LanguageController@create');
@@ -25,12 +25,20 @@ Route::middleware(['auth:api'])->group(function(){
         Route::delete('/language/{languageId}', 'LanguageController@delete');
 
         /*
-         * Framework routes
+         * Framework Routes
          */
         Route::get('/framework','FrameworkController@list');
         Route::post('/framework', 'FrameworkController@create');
-        Route::put('/framework/{languageId}', 'FrameworkController@update');
-        Route::delete('/framework/{languageId}', 'FrameworkController@delete');
+        Route::put('/framework/{frameworkId}', 'FrameworkController@update');
+        Route::delete('/framework/{frameworkId}', 'FrameworkController@delete');
+
+        /*
+         * Application Routes
+         */
+        Route::get('/app','FrameworkController@list');
+        Route::post('/app', 'FrameworkController@create');
+        Route::put('/app/{appId}', 'FrameworkController@update');
+        Route::delete('/framework/{appId}', 'FrameworkController@delete');
 
     });
 });

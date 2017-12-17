@@ -9,11 +9,10 @@
 namespace App\Http\Controllers\API;
 
 
-use App\Http\Controllers\Controller;
 use App\Model\Framework;
 use Illuminate\Http\Request;
 
-class FrameworkController extends Controller
+class FrameworkController
 {
 
     /**
