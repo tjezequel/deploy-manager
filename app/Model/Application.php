@@ -9,16 +9,19 @@
 namespace App\Model;
 
 
+use App\Uuid;
 use Illuminate\Database\Eloquent\Model;
 
 class Application extends Model
 {
 
+    use Uuid;
+
     protected $table = "apps";
 
     public $incrementing = false;
 
-    protected $fillable = ['name', 'description', 'logo_url', 'language_id', 'framework_id'];
+    protected $fillable = ['name', 'description', 'logo_url', 'language_id', 'framework_id', 'team_id'];
 
     function framework() {
         return $this->hasOne('App\Model\Framework');
