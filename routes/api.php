@@ -35,10 +35,10 @@ Route::middleware(['auth:api'])->group(function(){
         /*
          * Application Routes
          */
-        Route::get('/app','FrameworkController@list');
-        Route::post('/app', 'FrameworkController@create');
-        Route::put('/app/{appId}', 'FrameworkController@update');
-        Route::delete('/framework/{appId}', 'FrameworkController@delete');
+        Route::get('/app','ApplicationController@list');
+        Route::post('/app', 'ApplicationController@create');
+        Route::put('/app/{appId}', 'ApplicationController@update');
+        Route::delete('/framework/{appId}', 'ApplicationController@delete');
 
     });
 });
