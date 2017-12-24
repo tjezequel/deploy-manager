@@ -16,6 +16,7 @@ use App\Role;
 use App\Team;
 use Illuminate\Http\Request;
 use Mockery\Exception;
+use Ramsey\Uuid\Uuid;
 
 class ApplicationController extends Controller
 {
@@ -95,7 +96,54 @@ class ApplicationController extends Controller
 
     }
 
-    function update(Request $request, $appId) {
+    function update(Request $request, $applicationId) {
+
+        $requestContent = $request->getContent();
+
+        //Trying to parse json data
+        try {
+            $jsonData = json_decode($requestContent, true)['app'];
+        } catch (\Exception $exception) {
+            return response()->json(['error' => 'failed to parse data'], 422);
+        }
+
+        //Checking permission to create app
+        try {
+            $teamId = $jsonData['team_id'];
+            $roles = $request->user()->roles()->get();
+            $isAdmin = false;
+            foreach ($roles as $role) {
+                if($role->name == Role::ROLE_ADMIN && $role->pivot->team_id == $teamId) {
+                    $isAdmin = true;
+                }
+                if($role->name == Role::ROLE_SUPER_ADMIN) {
+                    $isAdmin = true;
+                }
+            }
+
+            if(!$isAdmin) {
+                throw new \Exception();
+            }
+
+        } catch (\Exception $exception) {
+            return response()->json(['error' => 'you are not in the team or are team admin'], 403);
+        }
+
+        try {
+            $app = Application::findOrFail($applicationId);
+            $app->name = $jsonData['name'];
+            $app->description = $jsonData['description'];
+            $app->logo_url = $jsonData['logo_url'];
+            $app->language_id = $jsonData['language_id'];
+            $app->framework_id = $jsonData['framework_id'];
+            $app->team_id = $jsonData['team_id'];
+            $app->save();
+        } catch (\Exception $exception) {
+            return response()->json(['error' => 'failed to update data', 'detail' => $exception], 422);
+        }
+
+        return response()->json(['app' => $app], 200);
+
 
     }
 
