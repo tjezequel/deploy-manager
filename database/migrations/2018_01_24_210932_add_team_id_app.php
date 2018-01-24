@@ -14,7 +14,7 @@ class AddTeamIdApp extends Migration
     public function up()
     {
         Schema::table('apps', function (Blueprint $table) {
-            $table->integer('team_id');
+            $table->unsignedInteger('team_id');
 
             $table->foreign('team_id')->references('id')->on('teams');
         });
