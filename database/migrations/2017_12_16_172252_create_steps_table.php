@@ -14,11 +14,11 @@ class CreateStepsTable extends Migration
     public function up()
     {
         Schema::create('steps', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->string('id');
             $table->primary('id');
             $table->string('name');
             $table->string('script_name');
-            $table->uuid('environment_id');
+            $table->string('environment_id');
             $table->timestamps();
 
             $table->foreign('environment_id')->references('id')->on('environments');
