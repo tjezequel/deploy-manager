@@ -14,10 +14,8 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        DB::statement('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
-
         Schema::create('users', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->string('id');
             $table->primary('id');
             $table->string('name');
             $table->string('email')->unique();

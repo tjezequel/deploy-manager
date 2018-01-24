@@ -14,10 +14,10 @@ class CreateEnvironmentsTable extends Migration
     public function up()
     {
         Schema::create('environments', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->string('id');
             $table->primary('id');
             $table->string('name');
-            $table->uuid('app_id');
+            $table->string('app_id');
             $table->timestamps();
 
             $table->foreign('app_id')->references('id')->on('apps');

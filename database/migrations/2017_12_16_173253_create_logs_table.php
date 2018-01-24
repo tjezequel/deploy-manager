@@ -14,13 +14,13 @@ class CreateLogsTable extends Migration
     public function up()
     {
         Schema::create('logs', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->string('id');
             $table->primary('id');
             $table->integer('status');
             $table->timestamp('begin_time');
             $table->timestamp('end_time');
-            $table->uuid('deploy_id');
-            $table->uuid('step_id');
+            $table->string('deploy_id');
+            $table->string('step_id');
             $table->timestamps();
 
             $table->foreign('deploy_id')->references('id')->on('deploys');
