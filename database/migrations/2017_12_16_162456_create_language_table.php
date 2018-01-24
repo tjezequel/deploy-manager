@@ -3,9 +3,8 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\DB;
 
-class CreateUsersTable extends Migration
+class CreateLanguageTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,16 +13,13 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        DB::statement('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
-
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('language', function (Blueprint $table) {
             $table->uuid('id');
             $table->primary('id');
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->rememberToken();
             $table->timestamps();
+            $table->string('name');
+            $table->string('version');
+            $table->string('logo_url')->nullable(true);
         });
     }
 
@@ -34,7 +30,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        DB::statement('DROP EXTENSION IF EXISTS "uuid-ossp";');
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('language');
     }
 }
