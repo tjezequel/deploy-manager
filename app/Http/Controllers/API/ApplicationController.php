@@ -10,8 +10,6 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Model\Application;
-use App\Model\Framework;
-use App\Model\Language;
 use App\Role;
 use App\Team;
 use Illuminate\Http\Request;
@@ -147,7 +145,39 @@ class ApplicationController extends Controller
 
     }
 
-    function delete($appId) {
+    function delete(Request $request, $appId) {
+
+        $app = Application::findOrFail($appId);
+
+        //Checking permission to create app
+        try {
+            $teamId = $app->team_id;
+            $roles = $request->user()->roles()->get();
+            $isAdmin = false;
+            foreach ($roles as $role) {
+                if($role->name == Role::ROLE_ADMIN && $role->pivot->team_id == $teamId) {
+                    $isAdmin = true;
+                }
+                if($role->name == Role::ROLE_SUPER_ADMIN) {
+                    $isAdmin = true;
+                }
+            }
+
+            if(!$isAdmin) {
+                throw new \Exception();
+            }
+
+        } catch (\Exception $exception) {
+            return response()->json(['error' => 'you are not in the team or are team admin'], 403);
+        }
+
+        try {
+            $app->delete();
+        } catch (\Exception $exception) {
+            return response()->json(['error' => 'failed to delete data']);
+        }
+
+        return response('', 204);
 
     }
 
