@@ -14,7 +14,7 @@ class CreateDeploysTable extends Migration
     public function up()
     {
         Schema::create('deploys', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->string('id');
             $table->primary('id');
             $table->boolean('status');
             $table->uuid('environment_id');
