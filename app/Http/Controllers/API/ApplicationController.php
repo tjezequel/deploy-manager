@@ -24,19 +24,19 @@ class ApplicationController extends Controller
         $roles = $request->user()->roles()->get();
         foreach($roles as $role) {
             if($role->name == 'superadmin') {
-                $apps = Application::all();
+                $apps = Application::with('framework', 'language')->get();
                 return response()->json(['apps' => $apps]);
             }
             if($role->name == 'admin'){
                 $team = Team::findOrFail($role->pivot->team_id);
-                $apps = $apps->merge($team->apps()->get());
+                $apps = $apps->merge($team->apps()->with('framework', 'language')->get());
             }
             if($role->name == 'user'){
                 $permissions = $request->user()->allPermissions()->filter(function ($value, $key) {
                     return starts_with($value->name, 'viewapp###');
                 });
                 $appsId = str_replace('viewapp###', '', $permissions->pluck('name')->all());
-                $apps = $apps->merge(Application::whereIn('id',$appsId)->where('team_id', $role->pivot->team_id)->get());
+                $apps = $apps->merge(Application::with('framework', 'language')->whereIn('id',$appsId)->where('team_id', $role->pivot->team_id)->get());
             }
         }
         return response()->json(['apps' => $apps], 200);

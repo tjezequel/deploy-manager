@@ -23,12 +23,12 @@ class Application extends Model
 
     protected $fillable = ['name', 'description', 'logo_url', 'language_id', 'framework_id', 'team_id'];
 
-    function framework() {
-        return $this->hasOne('App\Model\Framework');
+    public function framework() {
+        return $this->belongsTo('App\Model\Framework');
     }
 
-    function language() {
-        return $this->hasOne('App\Model\Language');
+    public function language() {
+        return $this->belongsTo('App\Model\Language');
     }
 
 }
