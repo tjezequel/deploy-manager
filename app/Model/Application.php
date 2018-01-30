@@ -31,4 +31,12 @@ class Application extends Model
         return $this->belongsTo('App\Model\Language');
     }
 
+    public function team() {
+        return $this->belongsTo('App\Team');
+    }
+
+    public function environments() {
+        return $this->hasMany('App\Model\Environments', 'app_id');
+    }
+
 }

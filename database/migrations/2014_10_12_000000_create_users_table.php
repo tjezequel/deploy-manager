@@ -32,7 +32,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        DB::statement('DROP EXTENSION IF EXISTS "uuid-ossp";');
         Schema::dropIfExists('users');
     }
 }

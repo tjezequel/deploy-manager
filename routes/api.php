@@ -39,6 +39,7 @@ Route::middleware(['auth:api'])->group(function(){
         Route::post('/app', 'ApplicationController@create');
         Route::put('/app/{applicationId}', 'ApplicationController@update');
         Route::delete('/app/{applicationId}', 'ApplicationController@delete');
+        Route::get('/app/{applicationId}', 'ApplicationController@detail');
 
     });
 });

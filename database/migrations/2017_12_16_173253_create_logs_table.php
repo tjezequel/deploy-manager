@@ -17,8 +17,8 @@ class CreateLogsTable extends Migration
             $table->string('id');
             $table->primary('id');
             $table->integer('status');
-            $table->timestamp('begin_time');
-            $table->timestamp('end_time');
+            $table->dateTime('begin_time');
+            $table->dateTime('end_time');
             $table->string('deploy_id');
             $table->string('step_id');
             $table->timestamps();

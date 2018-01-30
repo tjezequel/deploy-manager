@@ -181,4 +181,31 @@ class ApplicationController extends Controller
 
     }
 
+    function detail(Request $request, $appId) {
+        $roles = $request->user()->roles()->get();
+        $app = Application::with('language', 'framework', 'environments', 'environments.deploys')->findOrFail($appId);
+        $deploys = collect();
+        foreach ($app->environments as $env) {
+            $deploys = $deploys->merge($env->deploys);
+        }
+        $app->deploys = $deploys;
+        foreach($roles as $role) {
+            if($role->name == 'superadmin') {
+                return response()->json($app, 200);
+            }
+            if($role->name == 'admin'){
+                $team = Team::findOrFail($role->pivot->team_id);
+                if($app->team->id == $team->id) {
+                    return response()->json($app, 200);
+                }
+            }
+            if($role->name == 'user'){
+                if($request->user()->hasPermission('viewapp###'.$appId)) {
+                    return response()->json($app, 200);
+                }
+            }
+        }
+        return response()->json(['error' => 'you are not authorized to access this resources'], 403);
+    }
+
 }
