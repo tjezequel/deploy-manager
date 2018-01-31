@@ -9,6 +9,7 @@
 namespace App\Model;
 
 use App\Uuid;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 
 class Deploy extends Model {
@@ -23,6 +24,11 @@ class Deploy extends Model {
 
     public function environment() {
         $this->belongsTo('App\Model\Environment');
+    }
+
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('c');
     }
 
 }
