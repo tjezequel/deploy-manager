@@ -41,5 +41,11 @@ Route::middleware(['auth:api'])->group(function(){
         Route::delete('/app/{applicationId}', 'ApplicationController@delete');
         Route::get('/app/{applicationId}', 'ApplicationController@detail');
 
+        /*
+         * Teams Route
+         */
+        Route::get('/team', 'TeamController@teams');
+        Route::get('/team/apps', 'TeamController@teamApps');
+
     });
 });
