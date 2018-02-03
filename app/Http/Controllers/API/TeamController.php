@@ -26,7 +26,7 @@ class TeamController
             }
             else $teams[] = Team::findOrFail($role->pivot->team_id);
         }
-        return response()->json(["Teams" => $teams], 200);
+        return response()->json(["teams" => $teams], 200);
     }
 
     public function teamApps(Request $request) {
