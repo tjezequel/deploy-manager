@@ -34,18 +34,18 @@ class TeamController
         $teams  = collect();
         foreach ($roles as $role) {
             if($role->name == Role::ROLE_SUPER_ADMIN) {
-                $teams = Team::with('apps')->get();
+                $teams = Team::with('apps', 'apps.language', 'apps.framework')->get();
                 return response()->json($teams, 200);
             }
             $team = Team::findOrFail($role->pivot->team_id);
             if($role->name == Role::ROLE_ADMIN) {
-                $apps = Application::where('team_id', $team->id)->get();
+                $apps = Application::where('team_id', $team->id)->with('language', 'framework')->get();
                 $team->apps = $apps;
                 $teams->push($team);
                 continue;
             }
             $apps = collect();
-            $teamApps = Application::where('team_id', $team->id)->get();
+            $teamApps = Application::where('team_id', $team->id)->with('language', 'framework')->get();
             foreach ($teamApps as $app) {
                 if($request->user()->can('viewapp###'.$app->id)) {
                     $apps->push($app);
