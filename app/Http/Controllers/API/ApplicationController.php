@@ -190,17 +190,11 @@ class ApplicationController extends Controller
         }
         $app->deploys = $deploys;
         foreach($roles as $role) {
-            if($role->name == 'superadmin') {
+            if($role->name == Role::ROLE_SUPER_ADMIN || $role->name == Role::ROLE_ADMIN) {
                 return response()->json($app, 200);
             }
-            if($role->name == 'admin'){
-                $team = Team::findOrFail($role->pivot->team_id);
-                if($app->team->id == $team->id) {
-                    return response()->json($app, 200);
-                }
-            }
             if($role->name == 'user'){
-                if($request->user()->hasPermission('viewapp###'.$appId)) {
+                if($request->user()->can('viewapp###'.$appId)) {
                     return response()->json($app, 200);
                 }
             }
