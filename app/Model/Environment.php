@@ -11,7 +11,7 @@ namespace App\Model;
 use App\Uuid;
 use Illuminate\Database\Eloquent\Model;
 
-class Environments extends Model {
+class Environment extends Model {
 
     use Uuid;
 

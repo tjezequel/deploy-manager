@@ -42,10 +42,15 @@ Route::middleware(['auth:api'])->group(function(){
         Route::get('/app/{applicationId}', 'ApplicationController@detail');
 
         /*
-         * Teams Route
+         * Teams Routes
          */
         Route::get('/team', 'TeamController@teams');
         Route::get('/team/apps', 'TeamController@teamApps');
+
+        /*
+         * Environment Routes
+         */
+        Route::post('/environment', 'EnvironmentController@create');
 
     });
 });

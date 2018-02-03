@@ -36,7 +36,7 @@ class Application extends Model
     }
 
     public function environments() {
-        return $this->hasMany('App\Model\Environments', 'app_id');
+        return $this->hasMany('App\Model\Environment', 'app_id');
     }
 
 }
